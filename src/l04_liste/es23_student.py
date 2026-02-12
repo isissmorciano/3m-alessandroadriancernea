@@ -32,9 +32,9 @@
 # Città con densità massima: Napoli  
 # Città con densità >3000: 2
 
-nomi_citta: list(str) = ["Roma", "Milano", "Napoli"]
-popolazione: list(int) = [2800000, 1400000, 1000000]
-area: list(float) = [1285.0, 181.0, 117.0]
+nomi_citta: list[str] = ["Roma", "Milano", "Napoli"]
+popolazione: list[int] = [2800000, 1400000, 1000000]
+area: list[float] = [1285.0, 181.0, 117.0]
 
 if len(nomi_citta) == len(popolazione) and len(nomi_citta) == len(area):
     print("Va tutto bene.")
@@ -43,12 +43,19 @@ else:
     exit()
 
 lista_densita = []
-for i in lista_densita:
-    densita = popolazione(i) / area(i)
+for i in range(len(nomi_citta)):
+    densita = popolazione[i] / area[i]
     lista_densita.append(densita)
 
-massimo = -float(inf)
-for i in range(massimo):
-    if lista_densita(i) > massimo:
-        massimo = lista_densita(i)
-        indice_massimo = i
+massimo = -float('inf')
+for i in range(len(lista_densita)):
+    if lista_densita[i] > massimo:
+        massimo = lista_densita[i]
+        massim = i
+
+citta_con_3k = 0
+for i in range(len(lista_densita)):
+    if lista_densita[i] > 3000:
+        citta_con_3k += 1
+
+print(f"Città: {nomi_citta}, densità: {lista_densita}, massima densità: {massimo}, città con più di 3k densità: {citta_con_3k}")
