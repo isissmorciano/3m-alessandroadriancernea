@@ -27,33 +27,59 @@ import random
 # - Testa ogni funzione separatamente prima di integrarle.
 
 def genera_numero() -> int:
-    numero_segreto = random.randint(1, 100)
-    return numero_segreto
+    return random.randint(1, 100)
 
-def chiedi_tentativo() -> tuple(int, int):
-    tentativo: int = int(input("dimmi un numero tra 1 e 100: "))
-    contatore: int = 0
-    return tentativo, contatore
+def chiedi_tentativo(numero_generato: int) -> int:
+    try:
+        tentativo: int = int(input("Dimmi un numero da 1 a 100: "))
+        return tentativo
+    except ValueError:
+        print("Errore inserisci un numero")
 
-def verifica_tentativo() -> str:
-    if tentativo > numero_segreto:
-        print("Troppo alto")
-    elif tentativo < numero_segreto:
-        print("Troppo basso")
+def verifica_tentativo(previsione, numero_da_indovinare) -> str:
+    if previsione > numero_da_indovinare:
+        return "alto"
+    elif previsione < numero_da_indovinare:
+        return "basso"
+    elif previsione == numero_da_indovinare:
+        return "corretto"
+    else:
+        return "boh!"
 
-def aggiorna_contatore() -> int:
-    for tentativo in chiedi_tentativo:
-        contatore += 1
 
-def stampa_fine(tentativo, numero_segreto, contatore) -> str:
+def aggiorna_contatore(contatore: int) -> int:
+    return contatore + 1
+
+def stampa_fine(tentativo, numero_segreto) -> str:
     if tentativo == numero_segreto:
         return f"hai indovinato con {contatore} tentativi!"
 
-def main() -> None:
-
+def main():
     numero_generato: int = genera_numero()
-    tentativo, contatore = chiedi_tentativo()
-    final: str = stampa_fine(tentativo, numero_segreto, contatore)
-    print(f"Hey bro, il numero randomico era {numero_generato}, {final}")
+    print(f"SOLO PER NOI il numero generato e': {numero_generato}")  # 63
 
+    numero_di_tentativi = 0
+
+    while True:
+        tentativo: int = chiedi_tentativo(numero_generato) # chiedi un numero all utente
+        # verifica se l'utente ha indovinato
+        risultato: str = verifica_tentativo(tentativo, numero_generato)
+        numero_di_tentativi = aggiorna_contatore(numero_di_tentativi)
+        if risultato == "corretto":
+            print(f"Hai indovinato in {numero_di_tentativi} tentativi")
+            break
+        elif risultato == "alto":
+            print(f"Riprova. Il numero da indovinare e' piu' basso")
+        elif risultato == "basso":
+            print(f"Riprova. Il numero da indovinare e' piu' alto")
+        else:
+            print(f"AHHHHHHHHHHHHHHHH")
+
+
+    
+            
+    # final: str = stampa_fine(tentativo, numero_generato)
+    # print(f"Hey bro, il numero randomico era {numero_generato}")
+    # print(f"ci hai messo {blabla}")
+    
 main()
